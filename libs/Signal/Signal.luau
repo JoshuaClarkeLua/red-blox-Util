@@ -13,6 +13,7 @@ export type Signal<T...> = {
 	Once: (self: Signal<T...>, Callback: (T...) -> ()) -> () -> (),
 	Fire: (self: Signal<T...>, T...) -> (),
 	DisconnectAll: (self: Signal<T...>) -> (),
+	Destroy: (self: Signal<T...>) -> (),
 }
 
 local Signal = {}
@@ -84,6 +85,10 @@ end
 
 function Signal.DisconnectAll<T...>(self: Signal<T...>)
 	self.Root = nil
+end
+
+function Signal.Destroy<T...>(self: Signal<T...>)
+	self:DisconnectAll()
 end
 
 return function<T...>(): Signal<T...>
